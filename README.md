@@ -7,7 +7,7 @@ A unified MCP server that exposes Breez Lightning wallet functionality through t
 - Python 3.11+ (for local development or `uvx`)
 - [Docker](https://docs.docker.com/get-docker/) (optional, for container workflows)
 - [uv](https://github.com/astral-sh/uv) (optional, for ephemeral environments)
-- Breez API key and 12-word mnemonic (create at the [Breez Developer Portal](https://developer.breez.technology))
+- Breez API key which you can request [here](https://breez.technology/request-api-key/#contact-us-form-sdk)
 
 ## Configure Credentials
 
@@ -85,16 +85,16 @@ Run both modes simultaneously:
 
 ```bash
 # STDIO mode
-docker-compose --profile stdio up -d
-docker-compose logs -f breez-mcp-stdio
+docker compose --profile stdio up -d
+docker compose logs -f breez-mcp-stdio
 
 # HTTP mode
-docker-compose --profile http up -d
-docker-compose logs -f breez-mcp-http
+docker compose --profile http up -d
+docker compose logs -f breez-mcp-http
 
 # Stop
-docker-compose --profile http down
-docker-compose --profile stdio down
+docker compose --profile http down
+docker compose --profile stdio down
 ```
 
 ### Docker (direct)
@@ -146,7 +146,6 @@ Ensure the image exists (`docker build -t breez-mcp .`), then configure:
         "run", "--rm", "-i",
         "-e", "BREEZ_API_KEY",
         "-e", "BREEZ_MNEMONIC",
-        "-e", "BREEZ_NETWORK",
         "-e", "BREEZ_TRANSPORT_MODE=stdio",
         "-v", "/absolute/path/to/breez-mcp/data:/app/data",
         "breez-mcp"
@@ -176,7 +175,6 @@ Docker's `-e VAR` syntax reads the value of `VAR` from the environment supplied 
       "env": {
         "BREEZ_API_KEY": "${env:BREEZ_API_KEY}",
         "BREEZ_MNEMONIC": "${env:BREEZ_MNEMONIC}",
-        "BREEZ_NETWORK": "mainnet"
       }
     }
   }
