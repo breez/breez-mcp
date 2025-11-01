@@ -1,6 +1,6 @@
 # Breez MCP Server — FastMCP Implementation
 
-A unified MCP server that exposes Breez Lightning wallet functionality through the Breez Spark SDK using FastMCP. Supports both stdio and HTTP transport modes.
+A unified MCP server that exposes Lightning functionality through the Breez SDK (Spark implementation) using FastMCP. Supports both stdio and HTTP transport modes.
 
 ## Prerequisites
 
