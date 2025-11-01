@@ -1,0 +1,5 @@
+fastmcp>=0.4.0
+breez-sdk-spark>=0.2.7
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+uvicorn[standard]>=0.24.0

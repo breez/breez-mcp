@@ -1,0 +1,52 @@
+
+services:
+  # STDIO mode - for direct MCP connections
+  breez-mcp-stdio:
+    build: .
+    container_name: breez-mcp-stdio
+    restart: "no"  # Disable automatic restart for MCP server
+    environment:
+      - BREEZ_API_KEY=${BREEZ_API_KEY}
+      - BREEZ_MNEMONIC=${BREEZ_MNEMONIC}
+      - BREEZ_NETWORK=${BREEZ_NETWORK:-mainnet}
+      - BREEZ_DATA_DIR=/app/data
+      - BREEZ_TRANSPORT_MODE=stdio  # STDIO mode for MCP protocol
+      - PYTHONUNBUFFERED=1  # Ensure proper output buffering
+    volumes:
+      - breez-data:/app/data
+    networks:
+      - breez-network
+    profiles:
+      - stdio  # Use with: docker-compose --profile stdio up
+
+  # HTTP mode - for web API access
+  breez-mcp-http:
+    build: .
+    container_name: breez-mcp-http
+    restart: unless-stopped
+    environment:
+      - BREEZ_API_KEY=${BREEZ_API_KEY}
+      - BREEZ_MNEMONIC=${BREEZ_MNEMONIC}
+      - BREEZ_NETWORK=${BREEZ_NETWORK:-mainnet}
+      - BREEZ_DATA_DIR=/app/data
+      - BREEZ_TRANSPORT_MODE=http  # HTTP mode for web API
+      - BREEZ_HTTP_HOST=0.0.0.0
+      - BREEZ_HTTP_PORT=8000
+      - BREEZ_HTTP_PATH=/mcp
+      - PYTHONUNBUFFERED=1  # Ensure proper output buffering
+    volumes:
+      - breez-data:/app/data
+    networks:
+      - breez-network
+    ports:
+      - "8000:8000"  # Expose HTTP port for API access
+    profiles:
+      - http  # Use with: docker-compose --profile http up
+
+networks:
+  breez-network:
+    driver: bridge
+
+volumes:
+  breez-data:
+    driver: local
